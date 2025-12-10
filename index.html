@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Giveaways - Claim Now</title>
+    <style>
+        /* Reset CSS dasar */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+            order: 2; 
+        }
+
+        .sidebar-ad {
+            width: 300px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* RESPONSIVE LOGIC */
+        @media (min-width: 1201px) {
+            .sidebar-ad {
+                position: fixed;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .sidebar-left { left: 20px; }
+            .sidebar-right { right: 20px; }
+        }
+
+        @media (max-width: 1200px) {
+            body {
+                justify-content: flex-start;
+                gap: 30px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .sidebar-ad {
+                position: static;
+                transform: none;
+                margin: 0 auto;
+            }
+            .sidebar-left { order: 1; margin-bottom: 10px; }
+            .container { order: 2; }
+            .sidebar-right { order: 3; margin-top: 10px; }
+        }
+
+        /* --- STYLING FAKE VIDEO PLAYER (LINK OFFER) --- */
+        
+        .video-offer-link {
+            display: block;
+            position: relative; /* Penting untuk posisi tombol play */
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(254, 44, 85, 0.3);
+            text-decoration: none; /* Hilangkan garis bawah link */
+            transition: transform 0.3s ease;
+        }
+
+        .video-offer-link:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(254, 44, 85, 0.6);
+        }
+
+        /* Video Background (Looping & Muted) */
+        .video-offer-link video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            opacity: 0.8; /* Sedikit gelap agar tombol play menonjol */
+        }
+
+        /* Tombol Play di Tengah */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            border: 4px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            animation: pulse-play 2s infinite; /* Efek berdenyut */
+        }
+
+        /* Segitiga Putih */
+        .play-button::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 25px solid #fff;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 8px; /* Mengatur posisi segitiga agar pas tengah visual */
+        }
+
+        /* Efek Hover pada Tombol Play */
+        .video-offer-link:hover .play-button {
+            background: #FE2C55; /* Merah TikTok saat disentuh */
+            border-color: #FE2C55;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* --- END FAKE VIDEO PLAYER --- */
+
+        .btn-claim {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 50px;
+            background: linear-gradient(45deg, #FE2C55, #FF0050);
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(254, 44, 85, 0.5);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-claim:hover {
+            background: linear-gradient(45deg, #d61e42, #e60045);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(254, 44, 85, 0.7);
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(254, 44, 85, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0); }
+        }
+
+        /* Animasi khusus tombol Play */
+        @keyframes pulse-play {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- === KONTEN UTAMA === -->
+    <div class="container">
+        
+        <!-- LINK GAMBAR/VIDEO UTAMA (Link Offer 1) -->
+        <!-- Seluruh area video dibungkus link <a>. Klik dimanapun = Buka Offer -->
+        <a href="https://www.effectivegatecpm.com/ge65qx6gs?key=28a0fcaf13c60ae90e1d94503ac2f67b" class="video-offer-link" target="_blank">
+            
+            <!-- Video Preview (Autoplay, Mute, Loop) -->
+            <!-- Tambahkan file 'video.mp4' di folder Anda -->
+            <video autoplay muted loop playsinline poster="banner.png">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+
+            <!-- Tombol Play Overlay (Visual Saja) -->
+            <div class="play-button"></div>
+        </a>
+
+        <!-- Tombol Claim Now (Link Offer 2) 
+        <a href="https://www.effectivegatecpm.com/ztf3zuiy?key=30617628fe35bee9bea93026385e6f17" class="btn-claim" target="_blank">
+            Claim Now-->
+        </a>-->
+
+        <div class="footer">
+            &copy; 2025 Giveaway Event. All rights reserved.
+        </div>
+    </div>
+    
+    <center>
+        <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+        <!-- Histats.com  START  (aync)-->
+        <script type="text/javascript">var _Hasync= _Hasync|| [];
+        _Hasync.push(['Histats.start', '1,4884516,4,24,200,50,00011111']);
+        _Hasync.push(['Histats.fasi', '1']);
+        _Hasync.push(['Histats.track_hits', '']);
+        (function() {
+        var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+        hs.src = ('//s10.histats.com/js15_as.js');
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+        })();</script>
+        <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4884516&101" alt="free geoip" border="0"></a></noscript>
+        <!-- Histats.com  END  --> 
+    </center>
+
+</body>
+</html>
