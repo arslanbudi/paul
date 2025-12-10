@@ -21,37 +21,81 @@
             overflow-x: hidden;
         }
 
-        /* --- CONTAINER UTAMA --- */
+        /* --- LOGIKA UTAMA LAYOUT --- */
+        
+        /* 1. Container Utama (Video & Tombol) */
         .container {
             max-width: 800px;
             width: 100%;
             text-align: center;
+            animation: fadeIn 1s ease-in-out;
             position: relative;
             z-index: 2;
-            /* Order 2: Agar berada di tengah layout flex */
-            order: 2; 
+            order: 2; /* Di HP: Posisi Tengah */
         }
 
-        /* --- PERBAIKAN VIDEO PLAYER (Portrait dalam Landscape) --- */
-        
+        /* 2. Pengaturan Banner Iklan */
+        .sidebar-ad {
+            width: 300px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* 3. Wrapper Histats */
+        .histats-wrapper {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            order: 10; /* Di HP: Posisi Paling Bawah */
+        }
+
+        /* --- MEDIA QUERY DESKTOP (> 1200px) --- */
+        @media (min-width: 1201px) {
+            .sidebar-ad {
+                position: fixed; /* Melayang tetap */
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .sidebar-left { left: 20px; }
+            .sidebar-right { right: 20px; }
+        }
+
+        /* --- MEDIA QUERY MOBILE & TABLET (<= 1200px) --- */
+        @media (max-width: 1200px) {
+            body {
+                justify-content: flex-start;
+                gap: 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .sidebar-ad {
+                position: static;
+                transform: none;
+                margin: 0 auto;
+            }
+            /* Urutan Tampilan di HP */
+            .sidebar-left { order: 1; }  /* Iklan 1 (Atas) */
+            .container { order: 2; }     /* Konten Video */
+            .sidebar-right { order: 3; } /* Iklan 2 (Bawah) */
+            /* Histats otomatis order 10 (Paling Bawah) */
+        }
+
+        /* --- STYLING VIDEO PLAYER (Fake) --- */
         .video-offer-link {
             display: block;
             position: relative;
             width: 100%;
-            
-            /* Tetap Landscape Placeholder (16:9) seperti permintaan */
+            /* Kotak Landscape 16:9 */
             aspect-ratio: 16 / 9; 
-            
-            /* Background Hitam Pekat (biar sisi kiri kanan video menyatu) */
-            background-color: #000000; 
-            
+            background-color: #000000; /* Latar Hitam */
             border-radius: 15px;
-            overflow: hidden; /* Penting agar sudut tumpul tetap terlihat */
+            overflow: hidden;
             box-shadow: 0 0 20px rgba(254, 44, 85, 0.3);
             text-decoration: none;
             transition: transform 0.3s ease;
-            
-            /* Agar video berada di tengah vertikal & horizontal */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,13 +110,12 @@
             width: 100%;
             height: 100%;
             display: block;
-            
-            /* KUNCI PERBAIKAN: 'contain' */
-            /* Ini membuat video portrait TAMPIL UTUH di dalam kotak landscape */
+            /* Agar video portrait masuk utuh ke kotak landscape */
             object-fit: contain; 
+            opacity: 0.9;
         }
 
-        /* Tombol Play */
+        /* Tombol Play Overlay */
         .play-button {
             position: absolute;
             top: 50%;
@@ -108,7 +151,7 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        /* --- BUTTON CLAIM --- */
+        /* --- TOMBOL CLAIM --- */
         .btn-claim {
             display: inline-block;
             margin-top: 30px;
@@ -125,39 +168,59 @@
             letter-spacing: 1px;
             animation: pulse 2s infinite;
         }
+
         .btn-claim:hover {
             background: linear-gradient(45deg, #d61e42, #e60045);
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(254, 44, 85, 0.7);
         }
 
-        .footer { margin-top: 40px; font-size: 0.8rem; color: #666; }
-
-        /* --- HISTATS CONTAINER --- */
-        .histats-wrapper {
-            margin-top: 30px;
-            /* Order 10: Memastikan ini PASTI di bawah Container (Order 2) */
-            order: 10; 
-            width: 100%;
-            text-align: center;
+        .footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #666;
         }
 
-        @keyframes pulse-play { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); } 70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(254, 44, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0); } }
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(254, 44, 85, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0); }
+        }
+        @keyframes pulse-play { 
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); } 
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } 
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } 
+        }
     </style>
 </head>
 <body>
 
+    <!-- === BANNER KIRI / ATAS (Mobile: Order 1) === -->
+    <div class="sidebar-ad sidebar-left">
+        <!-- Script Iklan 1 -->
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '5891fb6676c0734c6d972b61908af244',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/5891fb6676c0734c6d972b61908af244/invoke.js"></script>
+    </div>
+
+    <!-- === KONTEN UTAMA (Mobile: Order 2) === -->
     <div class="container">
         
-        <!-- FAKE PLAYER LINK -->
-        <a href="https://www.effectivegatecpm.com/ztf3zuiy?key=30617628fe35bee9bea93026385e6f17" class="video-offer-link" target="_blank">
-            
-            <!-- VIDEO ELEMENT -->
-            <!-- 
-               object-fit: contain -> Video portrait akan tampil utuh (tidak terpotong/zoom)
-               di tengah kotak landscape. Sisi kiri/kanan akan hitam.
-            -->
+        <!-- VIDEO PLAYER LINK (OFFER 1) -->
+        <a href="https://www.effectivegatecpm.com/ms44f37fde?key=2b60154a6640e24a49db9d2d589c4bde" class="video-offer-link" target="_blank">
+            <!-- Video dengan object-fit: contain (Anti Melar) -->
             <video 
                 poster="banner.png" 
                 autoplay muted loop playsinline
@@ -165,8 +228,7 @@
             >
                 <source src="video.mp4" type="video/mp4">
             </video>
-
-            <!-- TOMBOL PLAY OVERLAY -->
+            <!-- Overlay Tombol Play -->
             <div class="play-button"></div>
         </a>
  
@@ -175,8 +237,23 @@
             &copy; 2025 Paul Diederich. All rights reserved.
         </div>
     </div>
+
+    <!-- === BANNER KANAN / BAWAH (Mobile: Order 3) === -->
+    <div class="sidebar-ad sidebar-right">
+        <!-- Script Iklan 2 -->
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '5fee7c0df8c16e622489dca8c58825b2',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/5fee7c0df8c16e622489dca8c58825b2/invoke.js"></script>
+    </div>
     
-    <!-- HISTATS (Sudah dipastikan di bawah dengan CSS order: 10) -->
+    <!-- === HISTATS (Mobile: Order 10 / Paling Bawah) === -->
     <div class="histats-wrapper">
         <div id="histats_counter"></div>
         <script type="text/javascript">var _Hasync= _Hasync|| [];
